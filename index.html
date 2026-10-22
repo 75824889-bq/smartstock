@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Smart Stock">
 <link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
 :root{--bg:#EEF1F6;--card:#fff;--ink:#1d2433;--mute:#667085;--navy:#1F3864;--line:#E3E7ED;--soft:#F2F4F7;--g:#2E9E5B;--a:#E8A317;--r:#D64545;--rb:#FADBD8;--gb:#D5F5E3;--ab:#FFF4D6;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
@@ -39,10 +39,10 @@ input[type=number]{text-align:right}label{font-size:12px;color:var(--mute);displ
 </style>
 </head>
 <body>
-<div class="wrap"><div class="top"><div><h1>Smart Stock</h1><small>El Chiquito Inka · v<span id="ver"></span></small></div><span class="mode" id="mode"></span></div><div id="app"></div></div>
+<div class="wrap"><div class="top"><div style="display:flex;align-items:center;gap:10px"><img src="icon-192.png" alt="" width="38" height="38" style="border-radius:9px"><div><h1>Smart Stock</h1><small>El Chiquito Inka · v<span id="ver"></span></small></div></div><span class="mode" id="mode"></span></div><div id="app"></div></div>
 <nav class="tabs"><div id="tabs"></div></nav><div id="toast"></div>
 <script>
-var VER="1.0",NOV=[["1.0","Primera versión de trabajo: 3 pizzas, ventas, stock con semáforo, compra sugerida, facturas de compra, conteo físico y respaldo."]];
+var VER="1.1",NOV=[["1.1","Nuevo logo e ícono de Smart Stock; corrección de la actualización sin conexión; botón para borrar los datos de prueba; aviso de derechos."],["1.0","Primera versión de trabajo: 3 pizzas, ventas, stock con semáforo, compra sugerida, facturas de compra, conteo físico y respaldo."]];
 var DEF={t0:0,igv:.18,pvs:[],ins:[
 {id:"queso",n:"Queso mozzarella",u:"kg",c:1.5,seg:.5,lt:1,cov:3,pr:28,s0:0},{id:"masa",n:"Masa de pizza",u:"kg",c:3,seg:0,lt:1,cov:3,pr:4,s0:0},{id:"salsa",n:"Salsa de tomate",u:"kg",c:.8,seg:.2,lt:1,cov:3,pr:8,s0:0},{id:"jamon",n:"Jamón",u:"kg",c:.5,seg:.1,lt:1,cov:3,pr:32,s0:0},{id:"pina",n:"Piña en trozos",u:"kg",c:.3,seg:.1,lt:1,cov:3,pr:5,s0:0},{id:"pepp",n:"Pepperoni",u:"kg",c:.35,seg:.1,lt:1,cov:3,pr:45,s0:0},{id:"oreg",n:"Orégano",u:"kg",c:.03,seg:.01,lt:1,cov:3,pr:40,s0:0},{id:"aceite",n:"Aceite de oliva",u:"L",c:.3,seg:.1,lt:1,cov:3,pr:18,s0:0},{id:"aceit",n:"Aceitunas negras",u:"kg",c:.15,seg:.05,lt:1,cov:3,pr:20,s0:0}],
 pz:[{id:"amer",n:"Pizza americana",d:"Jamón y queso",r:{masa:.25,salsa:.08,queso:.12,jamon:.06,oreg:.002,aceite:.01,aceit:.02}},{id:"hawa",n:"Pizza hawaiana",d:"Jamón y piña",r:{masa:.25,salsa:.08,queso:.12,jamon:.05,pina:.06,oreg:.002,aceite:.01}},{id:"pepp",n:"Pizza de pepperoni",d:"Pepperoni y queso",r:{masa:.25,salsa:.08,queso:.12,pepp:.06,oreg:.002,aceite:.01}}]};
@@ -155,7 +155,11 @@ function vMas(){var h='<div class="card"><h2>Ingredientes</h2><div class="sm" st
  h+='<h3>Agregar ingrediente</h3><div class="g2"><div><label>Nombre</label><input id="ni"></div><div><label>Unidad</label><select id="nu"><option>kg</option><option>L</option><option>und</option></select></div></div><button class="btn o" onclick="addI()">Agregar al catálogo</button></div>';
  h+='<div class="card"><h2>Proveedores</h2>'+(ST.cfg.pvs.length?ST.cfg.pvs.map(function(p){return'<div class="item"><span>'+esc(p.n)+'<br><small>RUC '+esc(p.ruc)+'</small></span></div>'}).join(""):'<div class="sm">Se agregan al registrar la primera factura.</div>')+'</div>';
  h+='<div class="card"><h2>Respaldo de datos</h2><div class="sm" style="margin-bottom:6px">'+(ST.mode=="shared"?"Los datos se guardan en línea y los ven todas las personas con acceso.":"Los datos de esta versión se guardan solo en este celular. Haga un respaldo cada semana.")+'</div><button class="btn o" onclick="expo()">Descargar respaldo</button><label style="margin-top:8px">Restaurar desde un respaldo (pegar el contenido)</label><textarea id="imp" rows="3"></textarea><button class="btn o" onclick="impo()">Restaurar</button></div>';
- h+='<div class="card"><h2>Novedades y sugerencias</h2>'+NOV.map(function(n){return'<div class="item"><span><b>v'+n[0]+'</b><br><small>'+esc(n[1])+'</small></span></div>'}).join("")+'<label>¿Qué debemos mejorar?</label><textarea id="sg" rows="3" placeholder="Escriba aquí una falla o una idea"></textarea><button class="btn" onclick="sendSg()">Enviar sugerencia</button>'+ST.sugerencias.slice(-3).reverse().map(function(s){return'<div class="item"><span class="sm">'+fd(s.fecha)+' · '+esc(s.txt)+'</span></div>'}).join("")+'</div>';return h}
+ h+='<div class="card"><h2>Novedades y sugerencias</h2>'+NOV.map(function(n){return'<div class="item"><span><b>v'+n[0]+'</b><br><small>'+esc(n[1])+'</small></span></div>'}).join("")+'<label>¿Qué debemos mejorar?</label><textarea id="sg" rows="3" placeholder="Escriba aquí una falla o una idea"></textarea><button class="btn" onclick="sendSg()">Enviar sugerencia</button>'+ST.sugerencias.slice(-3).reverse().map(function(s){return'<div class="item"><span class="sm">'+fd(s.fecha)+' · '+esc(s.txt)+'</span></div>'}).join("")+'</div>';h+=acerca();return h}
+var TITULAR="";
+function acerca(){return'<div class="card"><h2>Datos de prueba</h2><div class="sm" style="margin-bottom:6px">Borra ventas, facturas, conteos y ajustes de este celular para empezar de cero. Descargue antes un respaldo.</div><button class="btn d" onclick="wipe()">'+(ST.conf=="wipe"?"Tocar de nuevo para borrar todo":"Borrar todos los datos")+'</button></div><div class="card" style="text-align:center"><img src="logo-horizontal.png" alt="Smart Stock" style="max-width:80%;height:auto"><div class="sm" style="margin-top:6px">v'+VER+' · © 2026 '+(TITULAR?esc(TITULAR)+'. ':'Smart Stock. ')+'Todos los derechos reservados.</div></div>'}
+function wipe(){if(ST.conf!="wipe"){ST.conf="wipe";render();toast("Toque de nuevo para borrar TODOS los datos");return}
+ ST.conf=null;COLS.forEach(function(c){ST[c].slice().forEach(function(x){del(c,x.id)});ST[c]=[];if(!ST.db)ls(c,[])});ST.cfg=cl(DEF);saveCfg();ST.qv={};ST.fd=null;ST.cnt=null;ST.tab="ini";render();toast("Datos borrados")}
 function ei(id,k,v){ins(id)[k]=Math.max(0,parseFloat(v)||0);saveCfg();render()}
 function addI(){var n=$("ni").value.trim();if(!n){toast("Escriba el nombre");return}ST.cfg.ins.push({id:"i"+Date.now(),n:n,u:$("nu").value,c:.1,seg:0,lt:1,cov:3,pr:0,s0:0});saveCfg();render();toast("Ingrediente agregado")}
 function sendSg(){var t=$("sg").value.trim();if(!t)return;var ts=Date.now();put("sugerencias",{id:"s"+ts,ts:ts,fecha:iso(),txt:t,ver:VER});render();toast("Gracias, la sugerencia quedó registrada")}
@@ -169,7 +173,7 @@ var TABS=[["ini","Inicio"],["ven","Ventas"],["com","Compras"],["stk","Stock"],["
 function render(){var v={ini:vIni,ven:vVen,com:vCom,stk:vStk,piz:vPiz,mas:vMas}[ST.tab];$("app").innerHTML=v();
  $("tabs").innerHTML=TABS.map(function(t){return'<button class="'+(ST.tab==t[0]?"on":"")+'" onclick="go(\''+t[0]+'\')">'+t[1]+'</button>'}).join("");
  $("ver").textContent=VER;$("mode").textContent=ST.mode=="shared"?"Datos compartidos":"Solo en este celular";if(ST.tab=="com"&&ST.sub=="nue")tot()}
-function go(t){ST.tab=t;ST.op=null;render();window.scrollTo(0,0)}
+function go(t){ST.tab=t;ST.op=null;ST.conf=null;render();window.scrollTo(0,0)}
 loadLocal();render();init();
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(function(){});
 if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(function(){});
