@@ -3,22 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Smart Stock · El Chiquito Inka</title>
+<title>Smart Stock</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#1F3864">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Smart Stock">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
 :root{--bg:#EEF1F6;--card:#fff;--ink:#1d2433;--mute:#667085;--navy:#1F3864;--line:#E3E7ED;--soft:#F2F4F7;--g:#2E9E5B;--a:#E8A317;--r:#D64545;--rb:#FADBD8;--gb:#D5F5E3;--ab:#FFF4D6;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+box-sizing:border-box}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f141c;--card:#1a212c;--ink:#e8ecf3;--mute:#9aa6b8;--navy:#4A74C9;--line:#2a3342;--soft:#232c3a;--rb:#4a2323;--gb:#1d3a2a;--ab:#3a3217}}
 :root[data-theme="dark"]{--bg:#0f141c;--card:#1a212c;--ink:#e8ecf3;--mute:#9aa6b8;--navy:#4A74C9;--line:#2a3342;--soft:#232c3a;--rb:#4a2323;--gb:#1d3a2a;--ab:#3a3217}
 *{box-sizing:border-box}html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:15px}
 .wrap{max-width:460px;margin:0 auto;padding:0 12px 96px}
-.top{background:var(--navy);color:#fff;margin:0 -12px 12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.top{background:var(--navy);color:#fff;margin:0 -12px 12px;padding:calc(12px + env(safe-area-inset-top,0px)) 14px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .top h1{margin:0;font-size:17px}.top small{font-size:11px;opacity:.85;display:block}.mode{font-size:11px;background:rgba(255,255,255,.18);border-radius:10px;padding:3px 8px;white-space:nowrap}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px}
 h2{font-size:15px;margin:0 0 8px;color:var(--navy)}h3{font-size:13px;margin:10px 0 6px;color:var(--navy)}
@@ -35,14 +36,15 @@ input[type=number]{text-align:right}label{font-size:12px;color:var(--mute);displ
 .det{background:var(--soft);border-radius:10px;padding:8px 11px;margin:-4px 0 8px;font-size:13px}.det table{width:100%;border-collapse:collapse}.det td{padding:5px 0;border-bottom:1px solid var(--line)}.det td:not(:first-child){text-align:right}
 .seg{display:flex;gap:6px;margin-bottom:10px}.seg button{flex:1;padding:9px 4px;border-radius:10px;border:1px solid var(--navy);background:var(--card);color:var(--navy);font-size:13px;font-weight:bold}.seg button.on{background:var(--navy);color:#fff}
 .tabs{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}.tabs div{max-width:460px;margin:0 auto;display:flex}.tabs button{flex:1;border:0;background:transparent;color:var(--mute);font-size:11px;padding:8px 0;font-weight:bold;font-family:inherit}.tabs button.on{color:var(--navy);border-top:3px solid var(--navy)}
+#upd{position:fixed;left:12px;right:12px;bottom:calc(66px + env(safe-area-inset-bottom,0px));max-width:436px;margin:0 auto;background:var(--navy);color:#fff;border-radius:12px;padding:10px 12px;font-size:13px;display:none;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 4px 14px rgba(0,0,0,.3)}#upd.on{display:flex}#upd button{border:0;border-radius:8px;background:#fff;color:var(--navy);font-weight:bold;padding:8px 12px;font-size:13px;font-family:inherit}
 #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:76px;background:#222;color:#fff;padding:9px 14px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%;text-align:center}#toast.on{opacity:1}
 </style>
 </head>
 <body>
-<div class="wrap"><div class="top"><div style="display:flex;align-items:center;gap:10px"><img src="icon-192.png" alt="" width="38" height="38" style="border-radius:9px"><div><h1>Smart Stock</h1><small>El Chiquito Inka · v<span id="ver"></span></small></div></div><span class="mode" id="mode"></span></div><div id="app"></div></div>
-<nav class="tabs"><div id="tabs"></div></nav><div id="toast"></div>
+<div class="wrap"><div class="top"><div style="display:flex;align-items:center;gap:10px"><img src="icon-192.png" alt="" width="38" height="38" style="border-radius:9px"><div><h1>Smart Stock</h1><small>Control de inventarios · v<span id="ver"></span></small></div></div><span class="mode" id="mode"></span></div><div id="app"></div></div>
+<nav class="tabs"><div id="tabs"></div></nav><div id="upd"><span>Hay una versión nueva de Smart Stock.</span><button onclick="location.reload()">Actualizar</button></div><div id="toast"></div>
 <script>
-var VER="1.1",NOV=[["1.1","Nuevo logo e ícono de Smart Stock; corrección de la actualización sin conexión; botón para borrar los datos de prueba; aviso de derechos."],["1.0","Primera versión de trabajo: 3 pizzas, ventas, stock con semáforo, compra sugerida, facturas de compra, conteo físico y respaldo."]];
+var VER="1.2",NOV=[["1.2","Aviso automático cuando hay una versión nueva; la app ya es solo Smart Stock (sin nombre de negocio); el encabezado queda bajo la barra de estado del iPhone."],["1.1","Nuevo logo e ícono de Smart Stock; corrección de la actualización sin conexión; botón para borrar los datos de prueba; aviso de derechos."],["1.0","Primera versión de trabajo: 3 pizzas, ventas, stock con semáforo, compra sugerida, facturas de compra, conteo físico y respaldo."]];
 var DEF={t0:0,igv:.18,pvs:[],ins:[
 {id:"queso",n:"Queso mozzarella",u:"kg",c:1.5,seg:.5,lt:1,cov:3,pr:28,s0:0},{id:"masa",n:"Masa de pizza",u:"kg",c:3,seg:0,lt:1,cov:3,pr:4,s0:0},{id:"salsa",n:"Salsa de tomate",u:"kg",c:.8,seg:.2,lt:1,cov:3,pr:8,s0:0},{id:"jamon",n:"Jamón",u:"kg",c:.5,seg:.1,lt:1,cov:3,pr:32,s0:0},{id:"pina",n:"Piña en trozos",u:"kg",c:.3,seg:.1,lt:1,cov:3,pr:5,s0:0},{id:"pepp",n:"Pepperoni",u:"kg",c:.35,seg:.1,lt:1,cov:3,pr:45,s0:0},{id:"oreg",n:"Orégano",u:"kg",c:.03,seg:.01,lt:1,cov:3,pr:40,s0:0},{id:"aceite",n:"Aceite de oliva",u:"L",c:.3,seg:.1,lt:1,cov:3,pr:18,s0:0},{id:"aceit",n:"Aceitunas negras",u:"kg",c:.15,seg:.05,lt:1,cov:3,pr:20,s0:0}],
 pz:[{id:"amer",n:"Pizza americana",d:"Jamón y queso",r:{masa:.25,salsa:.08,queso:.12,jamon:.06,oreg:.002,aceite:.01,aceit:.02}},{id:"hawa",n:"Pizza hawaiana",d:"Jamón y piña",r:{masa:.25,salsa:.08,queso:.12,jamon:.05,pina:.06,oreg:.002,aceite:.01}},{id:"pepp",n:"Pizza de pepperoni",d:"Pepperoni y queso",r:{masa:.25,salsa:.08,queso:.12,pepp:.06,oreg:.002,aceite:.01}}]};
@@ -175,7 +177,10 @@ function render(){var v={ini:vIni,ven:vVen,com:vCom,stk:vStk,piz:vPiz,mas:vMas}[
  $("ver").textContent=VER;$("mode").textContent=ST.mode=="shared"?"Datos compartidos":"Solo en este celular";if(ST.tab=="com"&&ST.sub=="nue")tot()}
 function go(t){ST.tab=t;ST.op=null;ST.conf=null;render();window.scrollTo(0,0)}
 loadLocal();render();init();
-if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(function(){});
+if("serviceWorker" in navigator){var hadSW=!!navigator.serviceWorker.controller,swReg=null;
+ navigator.serviceWorker.register("sw.js").then(function(r){swReg=r}).catch(function(){});
+ navigator.serviceWorker.addEventListener("controllerchange",function(){if(hadSW)$("upd").className="on"});
+ document.addEventListener("visibilitychange",function(){if(!document.hidden&&swReg)swReg.update().catch(function(){})})}
 if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(function(){});
 </script>
 </body>
