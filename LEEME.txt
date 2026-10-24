@@ -1,4 +1,4 @@
-SMART STOCK - Paquete web instalable  ·  Versión 1.2
+SMART STOCK - Paquete web instalable  ·  Versión 1.2.1
 
 QUÉ CONTIENE
 - index.html            La aplicación completa (un solo archivo).
